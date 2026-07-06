@@ -30,7 +30,7 @@ const App = () => {
     e.preventDefault();
     if (!title.trim()) return;
     try {
-      await axios.post('${apiUrl}/api/tasks', { title });
+      await axios.post(`${apiUrl}/api/tasks`, { title });
       setTitle('');
       fetchTasks();
     } catch (error) {
