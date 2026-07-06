@@ -10,13 +10,15 @@ const App = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
+  const apiUrl = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
     fetchTasks();
   }, [filter, search, page]);
 
   const fetchTasks = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/tasks?status=${filter}&search=${search}&page=${page}&limit=5`);
+      const res = await axios.get(`${apiUrl}/api/tasks?status=${filter}&search=${search}&page=${page}&limit=5`);
       setTasks(res.data.tasks);
       setTotalPages(res.data.totalPages);
     } catch (error) {
@@ -28,7 +30,7 @@ const App = () => {
     e.preventDefault();
     if (!title.trim()) return;
     try {
-      await axios.post('http://localhost:5000/api/tasks', { title });
+      await axios.post('${apiUrl}/api/tasks', { title });
       setTitle('');
       fetchTasks();
     } catch (error) {
@@ -38,7 +40,7 @@ const App = () => {
 
   const toggleTask = async (id, completed) => {
     try {
-      await axios.put(`http://localhost:5000/api/tasks/${id}`, { completed: !completed });
+      await axios.put(`${apiUrl}/api/tasks/${id}`, { completed: !completed });
       fetchTasks();
     } catch (error) {
       console.error(error);
@@ -47,7 +49,7 @@ const App = () => {
 
   const deleteTask = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/tasks/${id}`);
+      await axios.delete(`${apiUrl}/api/tasks/${id}`);
       fetchTasks();
     } catch (error) {
       console.error(error);
